@@ -39,5 +39,11 @@
 - Class: text
   Output: "Take a look at summary(m_zi). You'll now see a 'Zero-inflation model' section. This tells you the probability of a site being a 'structural zero'."
 
+- Class: cmd_question
+  Output: "Finally, it is essential to justify using a complex model. Compare 'm1' (Poisson) and 'm_zi' (Zero-Inflated) using AIC(). Which one has the lowest score?"
+  CorrectAnswer: AIC(m1, m_zi)
+  AnswerTests: omnitest(correctExpr='AIC(m1, m_zi)')
+  Hint: Use AIC(m1, m_zi).
+
 - Class: text
-  Output: "Congratulations! You've successfully completed the Intermediate R Ecology course! You've mastered data manipulation, advanced visualization, multivariate stats, and mixed-effects modeling."
+  Output: "A lower AIC indicates a better balance of model fit and simplicity. Congratulations! You've successfully completed the Intermediate R Ecology course! You've mastered data manipulation, advanced visualization, multivariate stats, and mixed-effects modeling."
