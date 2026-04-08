@@ -1,0 +1,52 @@
+- Class: meta
+  Course: Intermediate R Ecology
+  Lesson: Advanced dplyr
+  Author: Baso R-Analytics
+  Type: Standard
+  Organization: Ecological Analysis Workshop
+  Version: 2.4.5
+
+- Class: text
+  Output: "Welcome to the Advanced dplyr lesson for Ecological Data analysis. In this lesson, we'll explore how to manipulate complex ecological datasets."
+
+- Class: text
+  Output: "We have pre-loaded two datasets for you: 'species_data' (containing abundances of tree species) and 'environment_data' (containing site-specific physical data)."
+
+- Class: cmd_question
+  Output: "First, let's take a look at the first few rows of 'species_data'."
+  CorrectAnswer: head(species_data)
+  AnswerTests: omnitest(correctExpr='head(species_data)')
+  Hint: Use the head() function on species_data.
+
+- Class: cmd_question
+  Output: "Now, let's join these two datasets by 'site_id' using a left_join. Save the result to a variable called 'ecological_data'."
+  CorrectAnswer: ecological_data <- species_data %>% left_join(environment_data, by = "site_id")
+  AnswerTests: omnitest(correctExpr='ecological_data <- species_data %>% left_join(environment_data, by = "site_id")')
+  Hint: Use ecological_data <- species_data %>% left_join(environment_data, by = "site_id"). Make sure to use the pipe (%>%)!
+
+- Class: cmd_question
+  Output: "Great! Now let's calculate the total abundance per site. Use group_by(site_id) and then mutate to create a new column 'total_abundance'. Update 'ecological_data'."
+  CorrectAnswer: ecological_data <- ecological_data %>% group_by(site_id) %>% mutate(total_abundance = sum(abundance))
+  AnswerTests: omnitest(correctExpr='ecological_data <- ecological_data %>% group_by(site_id) %>% mutate(total_abundance = sum(abundance))')
+  Hint: Remember to group_by site_id first, then use mutate().
+
+- Class: cmd_question
+  Output: "Next, we want to calculate the Shannon diversity index for each site. We can use the diversity() function from the vegan package within a summarise() call. Call the new column 'shannon_index' and save it to 'diversity_results'."
+  CorrectAnswer: diversity_results <- species_data %>% group_by(site_id) %>% summarise(shannon_index = diversity(abundance, index = "shannon"))
+  AnswerTests: omnitest(correctExpr='diversity_results <- species_data %>% group_by(site_id) %>% summarise(shannon_index = diversity(abundance, index = "shannon"))')
+  Hint: Use summarise(shannon_index = diversity(abundance, index = "shannon")).
+
+- Class: cmd_question
+  Output: "Often, we need multiple summary statistics at once. Use summarise() on 'species_data' (grouped by 'site_id') to calculate 'avg_abundance' (using mean()) and 'species_richness' (using n_distinct() on the 'species' column). Save the result to 'site_summaries'."
+  CorrectAnswer: site_summaries <- species_data %>% group_by(site_id) %>% summarise(avg_abundance = mean(abundance), species_richness = n_distinct(species))
+  AnswerTests: omnitest(correctExpr='site_summaries <- species_data %>% group_by(site_id) %>% summarise(avg_abundance = mean(abundance), species_richness = n_distinct(species))')
+  Hint: Use summarise(avg_abundance = mean(abundance), species_richness = n_distinct(species)).
+
+- Class: cmd_question
+  Output: "Finally, ecologists often need a 'community matrix' where each species is a column. Use pivot_wider() on 'species_data' to create this matrix. Use 'species' for column names and 'abundance' for values. Fill missing values with 0. Save it to 'comm_matrix'."
+  CorrectAnswer: comm_matrix <- species_data %>% pivot_wider(names_from = species, values_from = abundance, values_fill = 0)
+  AnswerTests: omnitest(correctExpr='comm_matrix <- species_data %>% pivot_wider(names_from = species, values_from = abundance, values_fill = 0)')
+  Hint: Use names_from = species and values_from = abundance in pivot_wider().
+
+- Class: text
+  Output: "Excellent work! You've mastered complex ecological data manipulation with dplyr."
