@@ -1,0 +1,40 @@
+- Class: meta
+  Course: Intermediate R Ecology
+  Lesson: Advanced Visualization
+  Author: Baso R-Analytics
+  Type: Standard
+  Organization: Ecological Analysis Workshop
+  Version: 2.4.5
+
+- Class: text
+  Output: "Welcome to Lesson 2: Advanced Visualization! Today we'll move beyond basic plots and explore the Grammar of Graphics using ggplot2 and patchwork."
+
+- Class: text
+  Output: "We've pre-loaded 'species_data' and 'ecological_analysis' (the joined data from Lesson 1), but with an extra year of data (2024). We've also set theme_classic() as the default for a professional scientific look."
+
+- Class: cmd_question
+  Output: "Let's start by visualizing species distribution. Use geom_violin() to plot 'abundance' against 'species' from 'species_data'. Call the plot 'p1'."
+  CorrectAnswer: p1 <- ggplot(species_data, aes(x = species, y = abundance)) + geom_violin()
+  AnswerTests: omnitest(correctExpr='p1 <- ggplot(species_data, aes(x = species, y = abundance)) + geom_violin()')
+  Hint: Use p1 <- ggplot(species_data, aes(x = species, y = abundance)) + geom_violin().
+
+- Class: cmd_question
+  Output: "Now let's look at trends. Create a scatter plot of 'elevation' vs 'total_abundance' using 'ecological_analysis'. Add a statistical layer using geom_smooth() with method = 'loess'. Call it 'p2'."
+  CorrectAnswer: p2 <- ggplot(ecological_analysis, aes(x = elevation, y = total_abundance)) + geom_point() + geom_smooth(method = "loess")
+  AnswerTests: omnitest(correctExpr='p2 <- ggplot(ecological_analysis, aes(x = elevation, y = total_abundance)) + geom_point() + geom_smooth(method = "loess")')
+  Hint: Use geom_smooth(method = "loess").
+
+- Class: cmd_question
+  Output: "Ecologists often deal with different scales. Facet the previous plot 'p2' by 'year' using facet_wrap(). To allow the axes to adjust to the data in each panel, set scales = 'free'. Update 'p2'."
+  CorrectAnswer: p2 <- p2 + facet_wrap(~year, scales = "free")
+  AnswerTests: omnitest(correctExpr='p2 <- p2 + facet_wrap(~year, scales = "free")')
+  Hint: Use p2 + facet_wrap(~year, scales = "free").
+
+- Class: cmd_question
+  Output: "Now for the fun part! Let's combine our violin plot (p1) and our smoothed plot (p2) side-by-side using the patchwork package. Simply type 'p1 + p2' and add 'plot_annotation(tag_levels = \"A\")' to automatically label them Graph A and B."
+  CorrectAnswer: p1 + p2 + plot_annotation(tag_levels = "A")
+  AnswerTests: omnitest(correctExpr='p1 + p2 + plot_annotation(tag_levels = "A")')
+  Hint: Use p1 + p2 + plot_annotation(tag_levels = "A").
+
+- Class: text
+  Output: "Fantastic! You've learned how to handle non-linear trends with loess, manage multi-scale data with free facets, and create publication-ready composite figures with patchwork."
