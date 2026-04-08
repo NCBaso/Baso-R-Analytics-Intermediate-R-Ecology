@@ -31,6 +31,12 @@
   Hint: Use p2 + facet_wrap(~year, scales = "free").
 
 - Class: cmd_question
+  Output: "To finish our aesthetics, let's fix overlapping labels. On 'p1', rotate the x-axis text by 45 degrees and shift them with hjust = 1. Use the theme() function and axis.text.x. Update 'p1'."
+  CorrectAnswer: p1 <- p1 + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  AnswerTests: omnitest(correctExpr='p1 <- p1 + theme(axis.text.x = element_text(angle = 45, hjust = 1))')
+  Hint: Use theme(axis.text.x = element_text(angle = 45, hjust = 1)).
+
+- Class: cmd_question
   Output: "Now for the fun part! Let's combine our violin plot (p1) and our smoothed plot (p2) side-by-side using the patchwork package. Simply type 'p1 + p2' and add 'plot_annotation(tag_levels = \"A\")' to automatically label them Graph A and B."
   CorrectAnswer: p1 + p2 + plot_annotation(tag_levels = "A")
   AnswerTests: omnitest(correctExpr='p1 + p2 + plot_annotation(tag_levels = "A")')
