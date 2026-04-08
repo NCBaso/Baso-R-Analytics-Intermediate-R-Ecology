@@ -1,0 +1,55 @@
+- Class: meta
+  Course: Intermediate R Ecology
+  Lesson: Ecological Statistics
+  Author: Baso R-Analytics
+  Type: Standard
+  Organization: Ecological Analysis Workshop
+  Version: 2.4.5
+
+- Class: text
+  Output: "Welcome to Lesson 3: Ecological Statistical Analysis! Today we'll explore Alpha Diversity, community composition (Beta Diversity), and perform multivariate testing using the vegan package."
+
+- Class: text
+  Output: "We've simulated 10 sites across two habitat types: Woodland and Grassland. Let's see how their communities differ."
+
+- Class: cmd_question
+  Output: "First, Alpha Diversity. Calculate the Shannon index for each site. Use species_data, group by site_id, and summarise using diversity(abundance, index = 'shannon'). Call the result 'alpha_res'."
+  CorrectAnswer: alpha_res <- species_data %>% group_by(site_id) %>% summarise(shannon = diversity(abundance, index = "shannon"), richness = n_distinct(species))
+  AnswerTests: omnitest(correctExpr='alpha_res <- species_data %>% group_by(site_id) %>% summarise(shannon = diversity(abundance, index = "shannon"), richness = n_distinct(species))')
+  Hint: Use diversity(abundance, index = "shannon").
+
+- Class: cmd_question
+  Output: "Now let's calculate Pielou's Evenness (J). Use your 'alpha_res' table and mutate a new column 'evenness' as shannon / log(richness)."
+  CorrectAnswer: alpha_res <- alpha_res %>% mutate(evenness = shannon / log(richness))
+  AnswerTests: omnitest(correctExpr='alpha_res <- alpha_res %>% mutate(evenness = shannon / log(richness))')
+  Hint: J = H / log(S).
+
+- Class: cmd_question
+  Output: "Moving to Beta Diversity. Calculate a Bray-Curtis dissimilarity matrix from the 'community_matrix' we pre-loaded for you. Use vegdist(). Call it 'bray_dist'."
+  CorrectAnswer: bray_dist <- vegdist(community_matrix, method = "bray")
+  AnswerTests: omnitest(correctExpr='bray_dist <- vegdist(community_matrix, method = "bray")')
+  Hint: Use vegdist(community_matrix, method = "bray").
+
+- Class: cmd_question
+  Output: "Let's visualize the communities with NMDS. Run metaMDS() on 'community_matrix' with distance = 'bray'. Call it 'nmds_res'."
+  CorrectAnswer: nmds_res <- metaMDS(community_matrix, distance = "bray", trace = 0)
+  AnswerTests: omnitest(correctExpr='nmds_res <- metaMDS(community_matrix, distance = "bray", trace = 0)')
+  Hint: Use nmds_res <- metaMDS(community_matrix, distance = "bray").
+
+- Class: text
+  Output: "Check the stress value of your NMDS by typing 'nmds_res$stress'. Values below 0.15 are generally good for ecological data."
+
+- Class: cmd_question
+  Output: "To plot this with ggplot2, we first extract the scores. Use as.data.frame(scores(nmds_res, display = 'sites')) and call it 'plot_df'. Also, add back the 'habitat_type' from 'environment_data'."
+  CorrectAnswer: plot_df <- as.data.frame(scores(nmds_res, display = "sites")) %>% mutate(habitat = environment_data$habitat_type)
+  AnswerTests: omnitest(correctExpr='plot_df <- as.data.frame(scores(nmds_res, display = "sites")) %>% mutate(habitat = environment_data$habitat_type)')
+  Hint: Use scores(nmds_res, display = "sites").
+
+- Class: cmd_question
+  Output: "Finally, let's test if the communities are significantly different using PERMANOVA. Use adonis2() with the formula: community_matrix ~ habitat_type, from the 'environment_data'. Call it 'perm_res'."
+  CorrectAnswer: perm_res <- adonis2(community_matrix ~ habitat_type, data = environment_data, method = "bray")
+  AnswerTests: omnitest(correctExpr='perm_res <- adonis2(community_matrix ~ habitat_type, data = environment_data, method = "bray")')
+  Hint: Use adonis2(community_matrix ~ habitat_type, data = environment_data).
+
+- Class: text
+  Output: "Look at 'perm_res'. The p-value (Pr(>F)) tells you if the habitats are different, and R2 tells you how much variation is explained by the habitat type. Great job!"
