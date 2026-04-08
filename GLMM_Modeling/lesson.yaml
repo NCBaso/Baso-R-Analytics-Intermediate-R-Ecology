@@ -1,0 +1,43 @@
+- Class: meta
+  Course: Intermediate R Ecology
+  Lesson: GLMM Modeling
+  Author: Baso R-Analytics
+  Type: Standard
+  Organization: Ecological Analysis Workshop
+  Version: 2.4.5
+
+- Class: text
+  Output: "Welcome to our final lesson: GLMMs and Zero-Inflation! We'll use the glmmTMB package to handle non-normal data, nested observations, and those tricky structural zeros."
+
+- Class: text
+  Output: "We have 'richness_data' from 20 sites over 2 years. Since sites were sampled twice, they are nested. We'll use site_id as a Random Effect to account for this."
+
+- Class: cmd_question
+  Output: "Let's build a Poisson GLMM. Model 'richness' against 'elevation', 'soil_pH', and 'precipitation'. Add a random intercept for 'site_id' using (1 | site_id). Use family = poisson. Call it 'm1'."
+  CorrectAnswer: m1 <- glmmTMB(richness ~ elevation + soil_pH + precipitation + (1 | site_id), data = richness_data, family = poisson)
+  AnswerTests: omnitest(correctExpr='m1 <- glmmTMB(richness ~ elevation + soil_pH + precipitation + (1 | site_id), data = richness_data, family = poisson)')
+  Hint: Use glmmTMB(richness ~ elevation + soil_pH + precipitation + (1 | site_id), data = richness_data, family = poisson).
+
+- Class: text
+  Output: "Great. Now we must check if our model is a good fit. We'll use the 'performance' package for this."
+
+- Class: cmd_question
+  Output: "Check for overdispersion in your model 'm1' using the check_overdispersion() function from the performance package."
+  CorrectAnswer: check_overdispersion(m1)
+  AnswerTests: omnitest(correctExpr='check_overdispersion(m1)')
+  Hint: Use check_overdispersion(m1).
+
+- Class: text
+  Output: "In ecology, we often find more zeros than a Poisson distribution expects (Zero-Inflation). This might be due to sites being unsuitable for any species."
+
+- Class: cmd_question
+  Output: "Let's fit a Zero-Inflated Poisson model. Add 'ziformula = ~1' to your model command to estimate a constant probability of structural zeros. Call it 'm_zi'."
+  CorrectAnswer: m_zi <- glmmTMB(richness ~ elevation + soil_pH + precipitation + (1 | site_id), data = richness_data, family = poisson, ziformula = ~1)
+  AnswerTests: omnitest(correctExpr='m_zi <- glmmTMB(richness ~ elevation + soil_pH + precipitation + (1 | site_id), data = richness_data, family = poisson, ziformula = ~1)')
+  Hint: Add ziformula = ~1 to the glmmTMB call.
+
+- Class: text
+  Output: "Take a look at summary(m_zi). You'll now see a 'Zero-inflation model' section. This tells you the probability of a site being a 'structural zero'."
+
+- Class: text
+  Output: "Congratulations! You've successfully completed the Intermediate R Ecology course! You've mastered data manipulation, advanced visualization, multivariate stats, and mixed-effects modeling."
