@@ -3,6 +3,7 @@
 
 library(tidyverse)
 library(vegan)
+library(knitr)
 
 # Sample ecological data
 species_data <- tibble(

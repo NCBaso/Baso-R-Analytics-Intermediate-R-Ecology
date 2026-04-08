@@ -20,6 +20,7 @@ install.packages("vegan")
 install.packages("patchwork")
 install.packages("glmmTMB")
 install.packages("performance")
+install.packages("knitr")
 ```
 
 ### 2. Load the Course

@@ -48,5 +48,11 @@
   AnswerTests: omnitest(correctExpr='comm_matrix <- species_data %>% pivot_wider(names_from = species, values_from = abundance, values_fill = 0)')
   Hint: Use names_from = species and values_from = abundance in pivot_wider().
 
+- Class: cmd_question
+  Output: "Finally, let's make our tables look professional! We've loaded the knitr package. Use the kable() function to display the 'site_summaries' table you just created."
+  CorrectAnswer: kable(site_summaries)
+  AnswerTests: omnitest(correctExpr='kable(site_summaries)')
+  Hint: Use kable(site_summaries).
+
 - Class: text
-  Output: "Excellent work! You've mastered complex ecological data manipulation with dplyr."
+  Output: "Excellent! You've learned how to join, group, summarize, and even format your results as clean tables. You're ready for the more advanced lessons!"
