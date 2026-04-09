@@ -29,8 +29,8 @@ Run this command to install the **Intermediate R Ecology** course directly from 
 ```r
 library(swirl)
 
-# Install the course from GitHub
-swirl::install_course_github("NCBaso", "Baso-R-Analytics-Intermediate-R-Ecology")
+# Install the course from GitHub (Direct Link)
+swirl::install_course_url("https://github.com/NCBaso/Baso-R-Analytics-Intermediate-R-Ecology/archive/refs/heads/main.zip")
 ```
 
 ### 3. Start Learning!
